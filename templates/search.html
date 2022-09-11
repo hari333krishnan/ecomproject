@@ -1,0 +1,121 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Making Memories</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="{% static 'shop/img/favicon.ico' %}" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'shop/css/style.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Topbar Start -->
+    <div class="container-fluid">
+        <div class="row align-items-center py-3 px-xl-5">
+            <div class="col-lg-3 d-none d-lg-block">
+                <a href="/" class="text-decoration-none">
+                    <h1 style="font-size:3rem" class="text-warning font-weight-bold"><span class="text-info font-weight-bold ">M</span>Cart</h1>
+                </a>
+                <a href="/" class="text-decoration-none">Home</a>
+            </div>
+            <div class="col-lg-6 col-6 text-left">
+                <form action="{% url 'searching' %}" method="get">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for products" name="q">
+                        <div class="input-group-append">
+                            <span class="input-group-text bg-transparent text-info">
+                                <button type="submit" style="border:none;background-color:transparent;outline:none"><i class="fa fa-search text-info"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-3 col-6 text-right">
+                <a href="" class="btn border">
+                    <i class="fas fa-heart text-info"></i>
+                    <span class="badge"></span>
+                </a>
+                <a href="" class="btn border">
+                    <i class="fas fa-shopping-cart text-info"></i>
+                    <span class="badge"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+
+
+    <!-- Products Start -->
+    <div class="container-fluid pt-5">
+        <div class="text-center mb-4">
+            <h2 class="section-title px-5"><span class="px-2">Available Products</span></h2>
+        </div>
+        <div class="row px-xl-5 pb-3">
+            {% for i in pr %}
+            <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                <a href="{{i.get_url}}" style="color:grey; text-decoration:none"><div class="card product-item  mb-4" >
+                    <div class="card-header product-img position-relative overflow-hidden bg-transparent  p-0">
+                        <img class="img-fluid w-100" src= "{{i.img.url}}" alt="No image found" style="height:300px;">
+                    </div>
+                    <div class="card-body  text-center p-0 pt-4 pb-3">
+                        <h5 class="text-truncate mb-3">{{i.name}}</h5>
+                        <p style="padding-left:10px; padding-right:10px; ">{{i.desc|truncatewords:8}}</p>
+                        <div class="d-flex justify-content-center">
+                            <h6 style="color:#17a2b8">₹{{i.price}}</h6><h6 class="text-muted ml-2"><del>₹{{i.price}}</del></h6>
+                        </div>
+                    </div>
+                    <!--<div class="card-footer d-flex justify-content-center bg-light border-solid">
+                        <a href="{{i.get_url}}" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-warning mr-1"></i>View Detail</a>
+                    </div>-->
+                </div></a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- Products End -->
+
+
+
+
+    <div style="background-color:#ffc107; padding:10px; text-align:center">
+        <p style="color:white"> <small>copyright @ 2022 by   </small><a href="#" style="color:#17a2b8">  MCart</a> | <small>  Designed by </small><i style="color:#17a2b8">Making Memories.</i></p>
+    </div>
+
+
+
+
+
+    <!-- Back to Top
+    <a href="#" class="btn btn-info back-to-top"><i class="fa fa-angle-double-up"></i></a>
+-->
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'shop/lib/easing/easing.min.js' %}"></script>
+    <script src="{% static 'shop/lib/owlcarousel/owl.carousel.min.js' %}"></script>
+
+    <!-- Contact Javascript File -->
+    <script src="{% static 'shop/mail/jqBootstrapValidation.min.js' %}"></script>
+    <script src="{% static 'shop/mail/contact.js' %}"></script>
+
+</body>
+
+</html>

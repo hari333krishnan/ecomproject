@@ -1,0 +1,396 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Making Memories</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="{% static 'shop/img/favicon.ico' %}" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{% static 'shop/lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'shop/css/style.css' %}" rel="stylesheet">
+</head>
+
+<body>
+<!-- Topbar Start -->
+<div class="container-fluid">
+    <div class="row align-items-center py-3 px-xl-5">
+        <div class="col-lg-3 d-none d-lg-block">
+            <a href="/" class="text-decoration-none">
+                <h1 style="font-size:3rem" class="text-warning font-weight-bold"><span
+                        class="text-info font-weight-bold ">M</span>Cart</h1>
+            </a>
+        </div>
+        <div class="col-lg-6 col-6 text-left">
+            <form action="{% url 'searching' %}" method="get">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for products" name="q">
+                    <div class="input-group-append">
+                            <span class="input-group-text bg-transparent text-info">
+                                <button type="submit" style="border:none;background-color:transparent;outline:none"><i
+                                        class="fa fa-search text-info"></i></button>
+                            </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-3 col-6 text-right">
+
+            <a href="{% url 'cartDetails' %}" class="btn border">
+                {% if itc <= 0 %}
+                <i class="fas fa-shopping-cart text-info"></i>
+                <span class="badge"></span>
+                {% else %}
+                <i class="fas fa-shopping-cart text-info"></i><i class="text-danger font-weight-bold">{{itc}}</i>
+                <span class="badge"></span>
+                {% endif %}
+            </a>
+        </div>
+    </div>
+</div>
+<!-- Topbar End -->
+
+
+<!-- Navbar Start -->
+<div class="container-fluid mb-5">
+    <div class="row border-top px-xl-5">
+        <div class="col-lg-3 d-none d-lg-block">
+            <a class="btn shadow-none d-flex align-items-center justify-content-between bg-warning text-white w-100"
+               data-toggle="collapse" href="#navbar-vertical" style="height: 65px; margin-top: -1px; padding: 0 30px;">
+                <h6 class="m-0">Categories</h6>
+                <i class="fa fa-angle-down text-dark"></i>
+            </a>
+            <nav class="collapse show navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0"
+                 id="navbar-vertical">
+                <div class="navbar-nav w-100 overflow-hidden" style="height: 370px">
+                    <!-- <div class="nav-item dropdown">
+                        <a href="#" class="nav-link" data-toggle="dropdown">Dresses <i class="fa fa-angle-down float-right mt-1"></i></a>
+                        <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
+                            <a href="" class="dropdown-item">Men's Dresses</a>
+                            <a href="" class="dropdown-item">Women's Dresses</a>
+                            <a href="" class="dropdown-item">Baby's Dresses</a>
+                        </div>
+                    </div> -->
+                    <a href="/" class="nav-item nav-link">All Products</a>
+                    {% for c in cat %}
+                    <a href="{{c.get_url}}" class="nav-item nav-link">{{c.name}}</a>
+                    {% endfor %}
+
+
+                </div>
+            </nav>
+        </div>
+        <div class="col-lg-9">
+            <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
+
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                    <div class="navbar-nav mr-auto py-0">
+                        <a href="/" class="nav-item nav-link active">Home</a>
+                        <a href="{% url 'cartDetails' %}" class="nav-item nav-link ">Shopping Cart</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
+                            <div class="dropdown-menu rounded-0 m-0">
+                                <a href="{% url 'cartDetails' %}" class="dropdown-item">Shopping Cart</a>
+                                <a href="" class="dropdown-item">Favorites</a>
+                            </div>
+                        </div>
+
+                        <a href="" class="nav-item nav-link">More</a>
+                    </div>
+                    <div class="navbar-nav ml-auto py-0">
+                        {% if user.is_authenticated %}
+                        <a href="" class="nav-item nav-link" style="color:blue">{{user.username}}</a>
+                        <a href="{% url 'logout' %}" class="nav-item nav-link" style="color:#ffc107">Logout</a>
+                        {% else %}
+                        <a href="{% url 'registration' %}" class="nav-item nav-link" style="color:#ffc107">Signup</a>
+                        <a href="{% url 'login' %}" class="nav-item nav-link" style="color:#ffc107">Login</a>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </nav>
+
+            <div id="header-carousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+
+                    <div class="carousel-item active" style="height: 410px;">
+                        <img class="img-fluid" src="{% static 'shop/img/quote1.jpg' %}" alt="Image">
+
+                    </div>
+                    <div class="carousel-item ">
+                        <div>
+                            <video controls height="420px" width="100%" autoplay muted loop>
+                                <source src="{% static 'bird.mp4' %}" type="video/mp4">
+                            </video>
+                        </div>
+                        <!-- <img class="img-fluid" src="{% static 'shop/img/quote1.jpg' %}" alt="Image">
+                         <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                             <div class="p-3" style="max-width: 700px;">
+                                 <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First Order</h4>
+                                 <h3 class="display-4 text-white font-weight-semi-bold mb-4">Fashionable Dress</h3>
+                                 <a href="" class="btn btn-light py-2 px-3">Shop Now</a>
+                             </div>
+                         </div>-->
+                    </div>
+                    <div class="carousel-item" style="height: 410px;">
+                        <img class="img-fluid" src="{% static 'shop/img/quote2.jpg' %}" alt="Image">
+
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#header-carousel" data-slide="prev">
+                    <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                        <span class="carousel-control-prev-icon mb-n2"></span>
+                    </div>
+                </a>
+                <a class="carousel-control-next" href="#header-carousel" data-slide="next">
+                    <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                        <span class="carousel-control-next-icon mb-n2"></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Navbar End -->
+
+
+<!-- Featured Start -->
+<div class="container-fluid pt-5">
+    <div class="row px-xl-5 pb-3">
+        <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
+            <div class="d-flex align-items-center border mb-4 justify-content-center" style="padding: 30px;">
+                <h1 class="fa fa-check text-warning m-0 mr-3"></h1>
+                <h5 class="font-weight-semi-bold m-0">Quality Product</h5>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
+            <div class="d-flex align-items-center border mb-4 justify-content-center" style="padding: 30px;">
+                <h1 class="fa fa-shipping-fast text-warning m-0 mr-2"></h1>
+                <h5 class="font-weight-semi-bold m-0">Fast Shipping</h5>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
+            <div class="d-flex align-items-center border mb-4 justify-content-center" style="padding: 30px;">
+                <h1 class="fa fa-phone-volume text-warning m-0 mr-3"></h1>
+                <h5 class="font-weight-semi-bold m-0">24/7 Support</h5>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Featured End -->
+
+
+<!-- Categories Start
+<div class="container-fluid pt-5">
+    <div class="row px-xl-5 pb-3">
+        <div class="col-lg-4 col-md-6 pb-1">
+            <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
+                <p class="text-right">15 Products</p>
+                <a href="" class="cat-img position-relative overflow-hidden mb-3">
+                    <img class="img-fluid" src="{% static 'shop/img/cat-1.jpg' %}" alt="">
+                </a>
+                <h5 class="font-weight-semi-bold m-0">Men's dresses</h5>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 pb-1">
+            <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
+                <p class="text-right">15 Products</p>
+                <a href="" class="cat-img position-relative overflow-hidden mb-3">
+                    <img class="img-fluid" src="{% static 'shop/img/cat-2.jpg' %}" alt="">
+                </a>
+                <h5 class="font-weight-semi-bold m-0">Women's dresses</h5>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 pb-1">
+            <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
+                <p class="text-right">15 Products</p>
+                <a href="" class="cat-img position-relative overflow-hidden mb-3">
+                    <img class="img-fluid" src="{% static 'shop/img/cat-3.jpg' %}" alt="">
+                </a>
+                <h5 class="font-weight-semi-bold m-0">Baby's dresses</h5>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 pb-1">
+            <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
+                <p class="text-right">15 Products</p>
+                <a href="" class="cat-img position-relative overflow-hidden mb-3">
+                    <img class="img-fluid" src="{% static 'shop/img/cat-4.jpg' %}" alt="">
+                </a>
+                <h5 class="font-weight-semi-bold m-0">Accerssories</h5>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 pb-1">
+            <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
+                <p class="text-right">15 Products</p>
+                <a href="" class="cat-img position-relative overflow-hidden mb-3">
+                    <img class="img-fluid" src="{% static 'shop/img/cat-5.jpg' %}" alt="">
+                </a>
+                <h5 class="font-weight-semi-bold m-0">Bags</h5>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 pb-1">
+            <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
+                <p class="text-right">15 Products</p>
+                <a href="" class="cat-img position-relative overflow-hidden mb-3">
+                    <img class="img-fluid" src="{% static 'shop/img/cat-6.jpg' %}" alt="">
+                </a>
+                <h5 class="font-weight-semi-bold m-0">Shoes</h5>
+            </div>
+        </div>
+    </div>
+</div>
+Categories End -->
+
+
+<!-- Products Start -->
+<div class="container-fluid pt-5">
+    <div class="text-center mb-4">
+        <h2 class="section-title px-5"><span class="px-2">Available Products</span></h2>
+    </div>
+    <div class="row px-xl-5 pb-3">
+        {% for i in pro.object_list %}
+        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+            <a href="{{i.get_url}}" style="color:grey; text-decoration:none">
+                <div class="card product-item  mb-4">
+                    <div class="card-header product-img position-relative overflow-hidden bg-transparent  p-0">
+                        <img class="img-fluid w-100" src="{{i.img.url}}" alt="No image found" style="height:300px;">
+                    </div>
+                    <div class="card-body  text-center p-0 pt-4 pb-3">
+                        <h5 class="text-truncate mb-3">{{i.name}}</h5>
+                        <p style="padding-left:10px; padding-right:10px; ">{{i.desc|truncatewords:8}}</p>
+                        <div class="d-flex justify-content-center">
+                            <h6 style="color:#17a2b8">₹{{i.price}}</h6>
+                            <h6 class="text-muted ml-2">
+                                <del>₹{{i.price}}</del>
+                            </h6>
+                        </div>
+                    </div>
+                    <!--<div class="card-footer d-flex justify-content-center bg-light border-solid">
+                        <a href="{{i.get_url}}" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-warning mr-1"></i>View Detail</a>
+                    </div>-->
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<!-- Products End -->
+
+
+<!-- Vendor Start
+<div class="container-fluid py-5">
+    <div class="row px-xl-5">
+        <div class="col">
+            <div class="owl-carousel vendor-carousel">
+                <div class="vendor-item border p-4">
+                    <img src="{% static 'shop/img/vendor-1.jpg' %}" alt="">
+                </div>
+                <div class="vendor-item border p-4">
+                    <img src="{% static 'shop/img/vendor-2.jpg' %}" alt="">
+                </div>
+                <div class="vendor-item border p-4">
+                    <img src="{% static 'shop/img/vendor-3.jpg' %}" alt="">
+                </div>
+                <div class="vendor-item border p-4">
+                    <img src="{% static 'shop/img/vendor-4.jpg' %}" alt="">
+                </div>
+                <div class="vendor-item border p-4">
+                    <img src="{% static 'shop/img/vendor-5.jpg' %}" alt="">
+                </div>
+                <div class="vendor-item border p-4">
+                    <img src="{% static 'shop/img/vendor-6.jpg' %}" alt="">
+                </div>
+                <div class="vendor-item border p-4">
+                    <img src="{% static 'shop/img/vendor-7.jpg' %}" alt="">
+                </div>
+                <div class="vendor-item border p-4">
+                    <img src="{% static 'shop/img/vendor-8.jpg' %}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+Vendor End -->
+<div style="text-align:center; padding:20px">
+    {% for p in pro.paginator.page_range %}
+
+    <a href="?page={{p}}" class="btn btn-info btn-sm {% if pro.number == p %} active {% endif %}">{{p}}</a>
+
+    {% endfor %}
+
+</div>
+
+<!-- Offer Start
+<div class="container-fluid offer pt-5">
+    <div class="row px-xl-5">
+        <div class="col-md-6 pb-4">
+            <div class="position-relative bg-secondary text-center text-md-right text-white mb-2 py-5 px-5">
+                <img src="{% static 'shop/img/offer-1.png' %}" alt="">
+                <div class="position-relative" style="z-index: 1;">
+                    <h5 class="text-uppercase text-info mb-3">20% off the all order</h5>
+                    <h1 class="mb-4 font-weight-semi-bold">Spring Collection</h1>
+                    <a href="" class="btn btn-outline-info py-md-2 px-md-3">Shop Now</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 pb-4">
+            <div class="position-relative bg-secondary text-center text-md-left text-white mb-2 py-5 px-5">
+                <img src="{% static 'shop/img/offer-2.png' %}" alt="">
+                <div class="position-relative" style="z-index: 1;">
+                    <h5 class="text-uppercase text-warning mb-3">20% off the all order</h5>
+                    <h1 class="mb-4 font-weight-semi-bold">Winter Collection</h1>
+                    <a href="" class="btn btn-outline-warning py-md-2 px-md-3">Shop Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ Offer End -->
+
+<div style="background-color:#ffc107; padding:10px; text-align:center">
+    <p style="color:white"><small>copyright @ 2022 by </small><a href="/" style="color:#17a2b8"> MCart</a> | <small>
+        Designed by </small><a href="/" style="color:#17a2b8">Making Memories.</a></p>
+</div>
+
+<a href="#" class="btn btn-info back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
+<!-- Back to Top
+<a href="#" class="btn btn-info back-to-top"><i class="fa fa-angle-double-up"></i></a>
+-->
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'shop/lib/easing/easing.min.js' %}"></script>
+<script src="{% static 'shop/lib/owlcarousel/owl.carousel.min.js' %}"></script>
+
+<!-- Contact Javascript File -->
+<script src="{% static 'shop/mail/jqBootstrapValidation.min.js' %}"></script>
+<script src="{% static 'shop/mail/contact.js' %}"></script>
+
+</body>
+
+</html>

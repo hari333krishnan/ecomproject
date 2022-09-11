@@ -1,0 +1,150 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Making Memories</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="{% static 'shop/img/favicon.ico' %}" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{% static 'shop/lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'shop/css/style.css' %}" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Page Header Start -->
+    <div class="container-fluid bg-secondary mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">Shopping Cart</h1>
+            <div class="d-inline-flex">
+                <p class="m-0"><a href="/">Home</a></p>
+                <p class="m-0 px-2">-</p>
+                <p class="m-0">Shopping Cart</p>
+            </div>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+
+    <!-- Cart Start -->
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5">
+            <div class="col-lg-8 table-responsive mb-5">
+                <table class="table table-bordered text-center mb-0">
+                    <thead class="bg-secondary text-dark">
+                        <tr>
+                            <th>Products</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody class="align-middle">
+                    {% for c in ci %}
+                        <tr>
+                            <td class="align-middle"><a href="{{c.prod.get_url}}"><img src="{{c.prod.img.url}}" alt="" style="width: 50px; height:50px;"></a> {{c.prod.name}}</td>
+                            <td class="align-middle">₹{{c.prod.price}}</td>
+                            <td class="align-middle">
+                                <div class="input-group  mx-auto" style="width: 100px;">
+                                    <div class="input-group-btn">
+                                        <a href="{% url 'mincart' c.prod.id %}" class="btn btn-sm btn-warning " >
+                                        <i class="fa fa-minus"></i>
+                                        </a>
+                                    </div>
+                                    <input type="text" class="form-control form-control-sm bg-secondary text-center" value="{{c.quan}}">
+                                    <div class="input-group-btn">
+                                        <a href="{% url 'addcart' c.prod.id %}" class="btn btn-sm btn-warning ">
+                                            <i class="fa fa-plus"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="align-middle">₹{{c.total}}</td>
+                            <td class="align-middle"><a href="{% url 'remove' c.prod.id %}" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
+                        </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-4">
+                <form class="mb-5" action="">
+                    <div class="input-group">
+                        <input type="text" class="form-control p-4" placeholder="Coupon Code">
+                        <div class="input-group-append">
+                            <button class="btn btn-success">Apply Coupon</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="card border-secondary mb-5">
+                    <div class="card-header bg-secondary border-0">
+                        <h4 class="font-weight-semi-bold m-0">Cart Summary</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3 pt-1">
+                            <h6 class="font-weight-medium">Subtotal</h6>
+                            <h6 class="font-weight-medium">₹{{t}}</h6>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-medium">Shipping</h6>
+                            <h6 class="font-weight-medium">₹100</h6>
+                        </div>
+                    </div>
+                    <div class="card-footer border-secondary bg-transparent">
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5 class="font-weight-bold">Total</h5>
+                            {% if t <= 0 %}
+                                <h5 class="font-weight-bold">₹0</h5>
+                            {% else %}
+                                <h5 class="font-weight-bold">₹{{cn}}</h5>
+                            {% endif %}
+                        </div>
+                        <button class="btn btn-block btn-info my-3 py-3">Proceed to pay</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Cart End -->
+
+<div style="background-color:#ffc107; padding:10px; text-align:center">
+        <p style="color:white"> <small>copyright @ 2022 by   </small><a href="/" style="color:#17a2b8">  MCart</a> | <small>  Designed by </small><a href="/" style="color:#17a2b8">Making Memories.</a></p>
+    </div>
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-info back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'shop/lib/easing/easing.min.js' %}"></script>
+    <script src="{% static 'shop/lib/owlcarousel/owl.carousel.min.js' %}"></script>
+
+    <!-- Contact Javascript File -->
+    <script src="{% static 'shop/mail/jqBootstrapValidation.min.js' %}"></script>
+    <script src="{% static 'shop/mail/contact.js' %}"></script>
+
+    <!-- Template Javascript -->
+    <script src="{% static 'shop/js/main.js' %}"></script>
+</body>
+
+</html>
